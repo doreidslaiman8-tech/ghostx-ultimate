@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GhostX Ultimate</title>
+<style>
+body{background:#000;color:#0f0;font-family:'Courier New',monospace;text-align:center;padding:20px;}
+h1{font-size:2.5em;text-shadow:0 0 25px #0f0;margin-bottom:5px;}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;max-width:900px;margin:20px auto;}
+.btn{background:#0a0a0a;border:2px solid #0f0;color:#0f0;padding:20px;font-size:1.2em;cursor:pointer;transition:0.3s;border-radius:5px;}
+.btn:hover{background:#0f0;color:#000;box-shadow:0 0 30px #0f0;}
+.output{background:#111;border:1px solid #0f0;margin-top:20px;padding:15px;min-height:150px;text-align:left;white-space:pre-wrap;overflow:auto;max-height:300px;}
+.cmd-row{margin-top:15px;display:flex;justify-content:center;gap:10px;}
+.cmd-row input{flex:1;max-width:500px;padding:10px;background:#222;color:#0f0;border:1px solid #0f0;border-radius:5px;font-size:1em;}
+.cmd-row button{padding:10px 20px;background:#0a0a0a;border:2px solid #0f0;color:#0f0;cursor:pointer;border-radius:5px;font-size:1em;}
+</style>
+</head>
+<body>
+<h1>🕳️ GhostX Ultimate</h1>
+<p>التفرد الأسود - القيادة العليا</p>
+<p>الحالة: <span style="color:#0f0;">نشط</span> | المنفذ: 5000 | <span id="time"></span></p>
+
+<div class="grid">
+<button class="btn" onclick="execute('omega')">⚡ Omega Strike</button>
+<button class="btn" onclick="execute('mossad')">🔍 MOSSAD</button>
+<button class="btn" onclick="execute('trap')">👻 Ghost Trap</button>
+<button class="btn" onclick="execute('phish')">🎭 Brand Phish</button>
+<button class="btn" onclick="execute('unified')">🧠 Unified Attack</button>
+<button class="btn" onclick="execute('whatsapp_hijack')">💬 WhatsApp Hijack</button>
+<button class="btn" onclick="execute('messenger_steal')">📨 Messenger Steal</button>
+<button class="btn" onclick="execute('nfc_attack')">📡 NFC Attack</button>
+<button class="btn" onclick="execute('bluetooth_attack')">🔵 Bluetooth HID</button>
+<button class="btn" onclick="execute('qr_generator')">📷 Generate QR</button>
+<button class="btn" onclick="execute('shield_on')">🛡️ تشغيل الدرع</button>
+<button class="btn" onclick="execute('status')">📊 حالة المنظومة</button>
+<button class="btn" onclick="execute('revive_all')">🔄 إنعاش كل شيء</button>
+<button class="btn" onclick="execute('custom')">💀 أمر مخصص</button>
+<button class="btn" onclick="execute('ai_attack')">🧠 AI Auto Attack</button>
+</div>
+
+<div class="cmd-row">
+    <input type="text" id="cmdInput" placeholder="اكتب أمراً واضغط Enter...">
+    <button onclick="execute('custom')">تنفيذ</button>
+</div>
+
+<div class="output" id="output">جاهز لاستقبال الأوامر...</div>
+
+<script>
+function execute(tool) {
+    var cmd;
+    if (tool === 'custom') {
+        cmd = document.getElementById('cmdInput').value;
+        if (!cmd) return;
+    } else if (tool === 'ai_attack') {
+        var target = prompt("أدخل رقم الهاتف (مع مفتاح الدولة) أو رابط فيسبوك:");
+        if (!target) return;
+        cmd = "python3 ~/apollyon_nexus.py " + target;
+    } else {
+        cmd = tool;
+    }
+    document.getElementById('output').innerHTML = "تنفيذ: " + cmd + "...";
+    fetch('/run?tool=' + encodeURIComponent(cmd))
+        .then(r => r.text())
+        .then(data => document.getElementById('output').innerHTML = data)
+        .catch(err => document.getElementById('output').innerHTML = 'خطأ: ' + err);
+}
+document.getElementById('cmdInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') execute('custom');
+});
+setInterval(()=>{document.getElementById('time').textContent=new Date().toLocaleTimeString('ar-SY');},1000);
+</script>
+</body>
+  </html>
